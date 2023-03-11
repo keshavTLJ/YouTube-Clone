@@ -11,7 +11,7 @@ function App() {
 
   return (
     <AppContext>
-      <BrowserRouter>
+      <BrowserRouter basename={window.location.pathname || ''}>
         <div className="flex flex-col bg-black">
           <Header />
           <Routes>
