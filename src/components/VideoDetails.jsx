@@ -70,13 +70,26 @@ const VideoDetails = () => {
       });
     }
 
+    function RelatedVideos() {
+      return (
+                <div className="mt-[19px]">
+                  <ul className="w-4/5">
+                    {relatedVideos?.map((item, index) => {
+                        if (item?.type !== "video") return false;
+                        return <SuggestionVideoCard key={index} video={item?.video} />
+                    })}
+                  </ul>
+                </div>
+      )
+    }
+
     return (
-        <div className="grid grid-cols-3 bg-black">
+        <div className="grid grid-cols-1 md:grid-cols-3 bg-black">
 
             {/* video section */}
-          <div className="col-span-2 flex flex-col p-5 pl-4 xl:pl-20 bg-black">
+          <div className="md:col-span-2 flex flex-col p-5 pl-4 xl:pl-20 bg-black">
                 {/* video player */}
-                <div className="h-[70vh]">
+                <div className="h-60 md:h-[70vh]">
                     <ReactPlayer 
                     url={`https://www.youtube.com/watch?v=${id}`} controls width="100%" height="100%" 
                     playing={true} 
@@ -85,10 +98,10 @@ const VideoDetails = () => {
                     fluid="true" />
                 </div>
 
-                {/* video Details */}
+                {/* video Details(details + description + comments) */}
                 <div className="bg-black">
+                    {/* Details */}
                     <p className="text-[25px] text-white font-AwanZaman mt-3">{video?.title}</p>
-
                     <div className="flex items-center justify-between">
                         <div className="flex items-center">
                             <div className="flex h-11 w-11 rounded-full overflow-hidden">
@@ -127,26 +140,37 @@ const VideoDetails = () => {
                     <div className="flex flex-col text-white bg-white/[0.15] mt-3 pt-2 px-3 line-clamp-4 rounded-xl text-sm font-semibold hover:bg-white/[0.25]">
                       {video?.description}
                     </div>
+                    {/* relatedVideos on bottom for small screen */}
+                    <div className="md:hidden mt-10">
+                        <ul className="w-4/5">
+                          {relatedVideos?.map((item, index) => {
+                              if (item?.type !== "video") return false;
+                              return <SuggestionVideoCard key={index} video={item?.video} />
+                          })}
+                        </ul>
+                    </div>
                     {/* comments   */}
                     <div className="">
-                      <div className="text-white mt-5 font-semibold pl-4">{totalComments} Comments</div>
-                      <ul className="px-4 py-3">
-                          {comments?.map((item) => {
-                              return <CommentCard key={item.commentId} comment={item} />
-                          })}
-                      </ul>
+                        <div className="text-white mt-5 font-semibold pl-4">
+                          {totalComments} Comments
+                        </div>
+                        <ul className="px-4 py-3">
+                            {comments?.map((item) => {
+                                return <CommentCard key={item.commentId} comment={item} />
+                            })}
+                        </ul>
                     </div>
                 </div>
-          </div>
+            </div>
 
-            {/* relatedVideos */}
-            <div className="mt-[19px]">
-              <ul className="w-4/5">
-                {relatedVideos?.map((item, index) => {
-                    if (item?.type !== "video") return false;
-                    return <SuggestionVideoCard key={index} video={item?.video} />
-                })}
-              </ul>
+            {/* relatedVideos on side for large screens */}
+            <div className="hidden md:block md:mt-[19px]">
+                <ul className="w-4/5">
+                  {relatedVideos?.map((item, index) => {
+                      if (item?.type !== "video") return false;
+                      return <SuggestionVideoCard key={index} video={item?.video} />
+                  })}
+                </ul>
             </div>
         </div>
     );

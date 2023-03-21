@@ -6,7 +6,7 @@ import { categories } from "../utils/constants";
 import { Context } from "../context/contextApi";
 
 const LeftNav = () => {
-    const { selectedCategory, setSelectedCategory, mobileMenu } = useContext(Context);
+    const { selectedCategory, setSelectedCategory, mobileMenu, setMobileMenu } = useContext(Context);
 
     const navigate = useNavigate();
 
@@ -23,8 +23,6 @@ const LeftNav = () => {
         }
     };
 
-    // console.log(mobileMenu)
-
     return (
         <div className={`${mobileMenu ? "visible fixed" : "hidden"} md:block z-10`} >
             <div className="flex flex-col px-5 bg-black h-screen md:fixed">
@@ -36,6 +34,7 @@ const LeftNav = () => {
                                 icon={item.icon}
                                 action={() => {
                                     clickHandler(item.name, item.type);
+                                    setMobileMenu(false);
                                     navigate("/");
                                 }}
                                 className={`${selectedCategory === item.name && "bg-white/[0.15]"}`}
