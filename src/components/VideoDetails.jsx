@@ -22,6 +22,7 @@ const VideoDetails = () => {
 
 
     useEffect(() => {
+      window.scrollTo(0, 0);
       fetchVideoDetails();
       fetchRelatedVideos();
       fetchComments();
@@ -32,7 +33,6 @@ const VideoDetails = () => {
 
       fetchDataFromApi(`video/details/?id=${id}`)
       .then(data => {
-        // console.log(data);
         setVideo(data);
       })
       .catch((error) => {
@@ -47,7 +47,6 @@ const VideoDetails = () => {
 
       fetchDataFromApi(`video/related-contents/?id=${id}`)
       .then(({contents}) => {
-        // console.log(contents);
         setRelatedVideos(contents);
       })
       .catch((error) => {
@@ -60,27 +59,12 @@ const VideoDetails = () => {
     const fetchComments = () => {
       fetchDataFromApi(`video/comments/?id=${id}`)
       .then(({comments, totalCommentsCount}) => {
-        console.log(comments);
-        console.log(totalCommentsCount);
         setTotalComments(totalCommentsCount);
         setComments(comments);
       })
       .catch((error) => {
         console.log(error);
       });
-    }
-
-    function RelatedVideos() {
-      return (
-                <div className="mt-[19px]">
-                  <ul className="w-4/5">
-                    {relatedVideos?.map((item, index) => {
-                        if (item?.type !== "video") return false;
-                        return <SuggestionVideoCard key={index} video={item?.video} />
-                    })}
-                  </ul>
-                </div>
-      )
     }
 
     return (
@@ -104,9 +88,9 @@ const VideoDetails = () => {
                     <p className="text-[25px] text-white font-AwanZaman mt-3">{video?.title}</p>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center">
-                            <div className="flex h-11 w-11 rounded-full overflow-hidden">
+                            {video?.author?.avatar[0]?.url && <div className="flex h-11 w-11 rounded-full overflow-hidden">
                                 <img className="h-full w-full object-cover" src={video?.author?.avatar[0]?.url} />
-                            </div>
+                            </div>}
                             <div className="flex flex-col ml-3">
                                 <div className="text-white text-md font-semibold flex items-center">
                                     {video?.author?.title}
@@ -122,17 +106,15 @@ const VideoDetails = () => {
                         </div>
                         <div className="flex text-white mt-4 md:mt-0">
                               <div className="flex items-center justify-center h-10 px-4 rounded-3xl bg-white/[0.15]">
-                                  <AiOutlineLike className="text-xl text-white mr-2" />
-                                  {`${abbreviateNumber(
-                                      video?.stats?.likes,
-                                      2
-                                  )} Likes`}
+                                  
+                                  {video?.stats?.likes && <span className="flex"><AiOutlineLike className="text-xl text-white mr-2" />
+                                  {`${abbreviateNumber(video.stats.likes, 2)} Likes`}</span>}
+
                               </div>
                               <div className="flex items-center justify-center h-10 px-4 rounded-3xl bg-white/[0.15] ml-2">
-                                  {`${abbreviateNumber(
-                                      video?.stats?.views,
-                                      2
-                                  )} Views`}
+                                  
+                                {video?.stats?.views && <span>{`${abbreviateNumber(video.stats.views, 2)} Views`}</span>}
+                                  
                               </div>
                         </div>
                     </div>

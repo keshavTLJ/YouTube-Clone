@@ -15,9 +15,9 @@ import { Context } from "../context/contextApi";
 import Loader from "../shared/Loader.jsx";
 
 const Header = () => {
-    const [searchQuery, setSearchQuery] = useState("");
+    // const [searchQuery, setSearchQuery] = useState("");
 
-    const { loading, mobileMenu, setMobileMenu } = useContext(Context);
+    const { loading, mobileMenu, setMobileMenu, searchQuery, setSearchQuery } = useContext(Context);
 
     const navigate = useNavigate();
 
@@ -25,6 +25,7 @@ const Header = () => {
         if ((event?.key === "Enter" || event === "searchButton") &&
             searchQuery?.length > 0) 
         {
+            event.target.blur();
             navigate(`/searchResults/${searchQuery}`);
         }
     };

@@ -9,21 +9,32 @@ import { BsFillCheckCircleFill } from "react-icons/bs";
 const VideoCard = ({ video }) => {
 
     const VideoLength = (time) => {
-        const videoLengthInSeconds = moment()
+        let videoLengthInSeconds;
+        if(time > 3600) {
+            videoLengthInSeconds = moment()
             ?.startOf("day")
             ?.seconds(time)
             ?.format("H:mm:ss");
+        }
+        else {
+            videoLengthInSeconds = moment()
+            ?.startOf("day")
+            ?.seconds(time)
+            ?.format("mm:ss");
+        }
+        
         return (
             <span className="absolute bottom-2 right-2 bg-black py-1 px-2 text-white text-xs font-semibold rounded-md">
                 {videoLengthInSeconds}
             </span>
         );
     };
+    
 
     return (
         <Link to={`/video/${video?.videoId}`}>
-            <div className="flex flex-col mb-8 max-w-[75%] mx-auto md:max-w-full">
-                <div className="relative h-48 md:h-40 rounded-xl overflow-hidden">
+            <div className="flex flex-col mb-8 mx-auto md:max-w-full">
+                <div className="relative h-48 md:h-44 rounded-xl overflow-hidden">
                     <img
                         className="h-full w-full object-cover"
                         src={video?.thumbnails[0]?.url}

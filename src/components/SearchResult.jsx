@@ -34,17 +34,34 @@ const SearchResult = () => {
   return (
     <div className='flex bg-black'>
         <LeftNav />
-        <div className="bg-black md:p-5 md:ml-[224px] flex justify-center">
-            <div className="w-[90%] bg-black">
-            <hr className="mt-2 mb-8 border-white/[0.2]" />
-                  {results?.map((item, index) => {
-                    if (item?.type !== "video") return false;
-                    return <SearchResultVideoCard key={index} video={item?.video} />
-                  })}
+        <div className="grow md:ml-[224px] h-full overflow-y-auto bg-black">
+                <div className="grid grid-cols-1 gap-2 p-3 md:p-5 md:ml-14 md:w-[87%]">
+                    <hr className="my-2 border-white/[0.2]" />
+                    {results?.map((item, index) => {
+                        if (item?.type !== "video") return false;
+                        let video = item.video;
+                        return (
+                            <SearchResultVideoCard
+                                key={index}
+                                video={video}
+                            />
+                        );
+                    })}
+                </div>
             </div>
-        </div>
     </div>
   )
 }
 
 export default SearchResult
+
+
+{/* <div className="bg-black md:p-5 md:ml-[224px] flex justify-center">
+            <div className="p-5 md:p-0 md:w-[90%] bg-black">
+                  <hr className="my-2 border-white/[0.2]" />
+                  {results?.map((item, index) => {
+                    if (item?.type !== "video") return false;
+                    return <SearchResultVideoCard key={index} video={item?.video} />
+                  })}
+            </div>
+      </div> */}
